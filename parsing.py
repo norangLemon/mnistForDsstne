@@ -9,9 +9,9 @@ if parsingType != "test" and parsingType != "train":
     print("put 'test' or 'train': %s" % parsingType)
     sys.exit(1)
 
-imageFile = open(parsingType + "-dataset\\images", "rb")
-labelFile = open(parsingType + "-dataset\\labels", "rb")
-resultFile = open("result\\" + parsingType, "w")
+imageFile = open(parsingType + "-dataset/images", "rb")
+labelFile = open(parsingType + "-dataset/labels", "rb")
+resultFile = open("result/" + parsingType, "w")
 
 # read image file's header
 imageMagicNumber = struct.unpack(">i", imageFile.read(4))[0]
