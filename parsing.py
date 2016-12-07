@@ -11,7 +11,9 @@ if parsingType != "test" and parsingType != "train":
 
 imageFile = open(parsingType + "-dataset/images", "rb")
 labelFile = open(parsingType + "-dataset/labels", "rb")
-resultFile = open("result/" + parsingType, "w")
+inputFile = open("result/input-" + parsingType, "w")
+outputFile = open("result/output-" + parsingType, "w")
+
 
 # read image file's header
 imageMagicNumber = struct.unpack(">i", imageFile.read(4))[0]
@@ -34,19 +36,24 @@ if (numImages != numItems):
     print("number of Images is not same with number of Index:%d %d" %(numImages, numItems))
     sys.exit(1)
 
+# make dsstne files
 print("images: %d\nrow: %d\tcol:%d" % (numImages, row, col))
 
 for i in range (1, numImages+1):
     labelNum = struct.unpack(">B", labelFile.read(1))[0]
     print("\nImage #%d : number %d" % (i, labelNum))
-    resultFile.write("case{0}\t".format(i))
+    inputFile.write("case{0}\t".format(i))
+    outputFile.write("case{caseIndex}\t{label}\n".format(caseIndex = i, label = labelNum))
     string = ""
     for j in range(1, n):
-            pixelNum = struct.unpack(">B", imageFile.read(1))[0]
-            resultFile.write("{pixel},{label}:".format(pixel = pixelNum, label = labelNum))
-    resultFile.write("{pixel},{label}\n".format(pixel = pixelNum, label = labelNum))
-    resultFile.flush()
+        pixelNum = struct.unpack(">B", imageFile.read(1))[0]
+        inputFile.write("{index},{pixel}:".format(index = j, pixel = pixelNum))
+    pixelNum = struct.unpack(">B", imageFile.read(1))[0]
+    inputFile.write("{index},{pixel}\n".format(index = n, pixel = pixelNum))
+    inputFile.flush()
 
+# close files
 imageFile.close()
 labelFile.close()
-resultFile.close()
+inputFile.close()
+outputFile.close()
