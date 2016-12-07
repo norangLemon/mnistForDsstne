@@ -9,8 +9,8 @@ if parsingType != "test" and parsingType != "train":
     print("put 'test' or 'train': %s" % parsingType)
     sys.exit(1)
 
-imageFile = open(parsingType + "-dataset/images", "rb")
-labelFile = open(parsingType + "-dataset/labels", "rb")
+imageFile = open("data/" + parsingType + "-image", "rb")
+labelFile = open("data/" + parsingType + "-label", "rb")
 inputFile = open("result/input-" + parsingType, "w")
 outputFile = open("result/output-" + parsingType, "w")
 
